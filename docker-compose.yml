@@ -1,0 +1,51 @@
+services:
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    networks:
+      - dice-network
+
+  dice-casino-1:
+    image: nabango/dice-casino:latest
+    ports:
+      - "5001:5000"
+    environment:
+      - REDIS_HOST=redis
+      - SECRET_KEY=secret-1
+    depends_on:
+      - redis
+    networks:
+      - dice-network
+
+  dice-casino-2:
+    image: nabango/dice-casino:latest
+    ports:
+      - "5002:5000"
+    environment:
+      - REDIS_HOST=redis
+      - SECRET_KEY=secret-2
+    depends_on:
+      - redis
+    networks:
+      - dice-network
+
+  dice-casino-3:
+    image: nabango/dice-casino:latest
+    ports:
+      - "5003:5000"
+    environment:
+      - REDIS_HOST=redis
+      - SECRET_KEY=secret-3
+    depends_on:
+      - redis
+    networks:
+      - dice-network
+
+volumes:
+  redis_data:
+
+networks:
+  dice-network:
+    driver: bridge
