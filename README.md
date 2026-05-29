@@ -101,7 +101,8 @@ docker compose up -d --scale dice-casino=5
 ```
 
 
-# Clean up unused resources
+# Clean up unused resources:
+```bash
 docker system prune -a
 docker volume prune
 ```
